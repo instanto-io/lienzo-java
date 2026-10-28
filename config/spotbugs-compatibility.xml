@@ -1,0 +1,81 @@
+<FindBugsFilter>
+  <!--Reviewed compatibility exceptions only. New high-priority findings still fail verify.-->
+  <!--Preserve the public upstream configuration/factory field API.-->
+  <Match>
+    <Bug pattern="MS_SHOULD_BE_FINAL" />
+    <Class name="com.ait.lienzo.client.core.shape.toolbox.items.decorator.DecoratorsFactory" />
+    <Field name="INSTANCE" />
+  </Match>
+  <!--Preserve the public upstream configuration/factory field API.-->
+  <Match>
+    <Bug pattern="MS_SHOULD_BE_FINAL" />
+    <Class name="com.ait.lienzo.client.core.shape.toolbox.items.impl.ButtonsFactory" />
+    <Field name="INSTANCE" />
+  </Match>
+  <!--Preserve the public upstream configuration/factory field API.-->
+  <Match>
+    <Bug pattern="MS_SHOULD_BE_FINAL" />
+    <Class name="com.ait.lienzo.client.core.shape.toolbox.items.tooltip.TooltipFactory" />
+    <Field name="INSTANCE" />
+  </Match>
+  <!--Preserve the public upstream configuration/factory field API.-->
+  <Match>
+    <Bug pattern="MS_MUTABLE_ARRAY" />
+    <Class name="com.ait.lienzo.client.core.shape.wires.MagnetManager" />
+    <Field name="EIGHT_CARDINALS" />
+  </Match>
+  <!--Preserve the public upstream configuration/factory field API.-->
+  <Match>
+    <Bug pattern="MS_MUTABLE_ARRAY" />
+    <Class name="com.ait.lienzo.client.core.shape.wires.MagnetManager" />
+    <Field name="FOUR_CARDINALS" />
+  </Match>
+  <!--Preserve the public upstream configuration/factory field API.-->
+  <Match>
+    <Bug pattern="MS_SHOULD_BE_FINAL" />
+    <Class name="com.ait.lienzo.client.core.shape.wires.SelectionManager" />
+    <Field name="SELECTION_PADDING" />
+  </Match>
+  <!--Exact equality identifies unchanged coordinates or exact channel/axis cases; epsilon would alter behaviour.-->
+  <Match>
+    <Bug pattern="FE_FLOATING_POINT_EQUALITY" />
+    <Class name="com.ait.lienzo.client.core.shape.wires.handlers.impl.AlignAndDistributeControlImpl" />
+    <Method name="updateIndex" />
+  </Match>
+  <!--Preserve upstream JsCanvas/JsWiresShape global JavaScript integration semantics; multi-canvas isolation is a documented follow-up.-->
+  <Match>
+    <Bug pattern="ST_WRITE_TO_STATIC_FROM_INSTANCE_METHOD" />
+    <Class name="com.ait.lienzo.client.core.shape.wires.types.JsWiresShape" />
+    <Method name="linkLister" />
+  </Match>
+  <!--Preserve upstream JsCanvas/JsWiresShape global JavaScript integration semantics; multi-canvas isolation is a documented follow-up.-->
+  <Match>
+    <Bug pattern="ST_WRITE_TO_STATIC_FROM_INSTANCE_METHOD" />
+    <Class name="com.ait.lienzo.client.core.types.JsCanvas" />
+    <Method name="&lt;init&gt;" />
+  </Match>
+  <!--Exact equality identifies unchanged coordinates or exact channel/axis cases; epsilon would alter behaviour.-->
+  <Match>
+    <Bug pattern="FE_FLOATING_POINT_EQUALITY" />
+    <Class name="com.ait.lienzo.client.core.types.Point2D" />
+    <Method name="thetaTo" />
+  </Match>
+  <!--Exact equality identifies unchanged coordinates or exact channel/axis cases; epsilon would alter behaviour.-->
+  <Match>
+    <Bug pattern="FE_FLOATING_POINT_EQUALITY" />
+    <Class name="com.ait.lienzo.client.widget.DragContext" />
+    <Method name="dragDone" />
+  </Match>
+  <!--Exact equality identifies unchanged coordinates or exact channel/axis cases; epsilon would alter behaviour.-->
+  <Match>
+    <Bug pattern="FE_FLOATING_POINT_EQUALITY" />
+    <Class name="com.ait.lienzo.client.widget.DragContext" />
+    <Method name="dragUpdate" />
+  </Match>
+  <!--Exact equality identifies unchanged coordinates or exact channel/axis cases; epsilon would alter behaviour.-->
+  <Match>
+    <Bug pattern="FE_FLOATING_POINT_EQUALITY" />
+    <Class name="com.ait.lienzo.shared.core.types.Color" />
+    <Method name="getHSLFromRGB" />
+  </Match>
+</FindBugsFilter>

@@ -1,0 +1,25 @@
+Apache KIE
+Copyright 2023-2025 The Apache Software Foundation
+
+This product includes software developed at
+The Apache Software Foundation (http://www.apache.org/).
+
+The Initial Developer of some parts of the framework, which are copied from, derived from, or
+inspired by KIE (Knowledge Is Everything) group, is Red Hat, Inc (https://www.redhat.com/).
+Copyright Red Hat, Inc. and/or its affiliates.. All Rights Reserved.
+
+Lienzo Java incorporates Lienzo core from Apache KIE at revision
+f774fc229484155e23b7aa07107474eaa3eca8c3, packages/stunner-editors/lienzo-core.
+
+Lienzo was originally developed by Ahome' Innovation Technologies and Dean S. Jones.
+Copyright (c) 2014,2015,2016,2017,2018 Ahome' Innovation Technologies.
+All rights reserved. Licensed under the Apache License, Version 2.0.
+
+The upstream Timer.java and gwtlienzo/i18n/Constants.java include GWT-derived work:
+Copyright 2007 Google Inc. Licensed under the Apache License, Version 2.0.
+The upstream gwtlienzo/i18n/client/LocalizableResource.java includes GWT-derived work:
+Copyright 2008 Google Inc. Licensed under the Apache License, Version 2.0.
+
+Port build, showcase and modifications: Copyright 2026 Carl Stainton.
+Modifications are identified in the changed files and documented in UPSTREAM.md.
+This independent port is not an endorsed Apache Software Foundation distribution.
