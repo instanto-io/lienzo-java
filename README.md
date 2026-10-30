@@ -115,6 +115,12 @@ python3 -m http.server 8080 --directory lienzo-showcase-teavm/target/site
 Open [localhost:8080](http://localhost:8080/). To try GWT instead, serve
 `lienzo-showcase-gwt/target/site`. The examples use the same application Java source.
 
+## Quality
+
+SpotBugs runs on every build. High-priority findings fail the build, and all findings are published to [code scanning](https://github.com/instanto-io/lienzo-java/security/code-scanning). SonarQube analysis runs on `main` against the organisation's private instance; maintainers see the gate, coverage and issue counts in the workflow summary. The Sonar quality gate is advisory, so a snapshot still publishes when only that gate fails.
+
+See [Actions](https://github.com/instanto-io/lienzo-java/actions) for the latest verification and quality summary.
+
 ## Credits and funding
 
 Lienzo was created by Ahome' Innovation Technologies and Dean S. Jones, and developed further by
