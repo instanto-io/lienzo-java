@@ -6,8 +6,6 @@ on:
   workflow_dispatch:
 permissions:
   contents: read
-  # Required to publish SpotBugs SARIF to code scanning.
-  security-events: write
 concurrency:
   group: lienzo-${{ github.ref }}
   cancel-in-progress: true
@@ -58,18 +56,6 @@ jobs:
         run: mvn -s .github/maven-settings.xml -B -ntp -Dmaven.repo.local="$MAVEN_CACHE" -Pproduction clean verify
       - name: Check formatting is committed
         run: git diff --exit-code
-      - name: SonarQube analysis
-        # Analysis belongs to the default branch only: a pull-request run would
-        # otherwise replace the project's main analysis with unmerged code.
-        if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request' && env.SONAR_TOKEN != ''
-        continue-on-error: true
-        env:
-          SONAR_HOST_URL: https://sonar.instanto.io
-        run: >-
-          mvn --settings .github/maven-settings.xml --batch-mode --no-transfer-progress
-          -Dmaven.repo.local="$MAVEN_CACHE"
-          sonar:sonar -Dsonar.projectKey=lienzo-java -Dsonar.projectName=lienzo-java
-          -Dsonar.qualitygate.wait=true
       - name: Publish quality summary
         if: always()
         continue-on-error: true
