@@ -165,7 +165,7 @@ public class NativeContext2D extends CanvasRenderingContext2D {
 
         grad.addColorStop(1, color);
 
-        this.fillStyle = CanvasRenderingContext2D.FillStyleUnionType.of(grad);
+        this.fillStyle = elemental2.dom.BaseRenderingContext2D.FillStyleUnionType.of(grad);
 
         this.fillText(text, x, y);
     }
@@ -321,6 +321,8 @@ public class NativeContext2D extends CanvasRenderingContext2D {
                     break;
                 case 7:
                     this.arcTo(p[0], p[1], p[2], p[3], p[4]);
+                    break;
+                default:
                     break;
             }
         }
