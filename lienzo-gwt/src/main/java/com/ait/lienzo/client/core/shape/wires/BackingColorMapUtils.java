@@ -136,6 +136,8 @@ public class BackingColorMapUtils {
                         double y2 = points[5] + offsetY;
                         ctx.bezierCurveTo(x0, y0, x1, y1, x2, y2);
                     }
+                    default:
+                        break;
                 }
             }
 
