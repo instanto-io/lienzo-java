@@ -1237,6 +1237,8 @@ public final class Geometry {
                     segmentStart = end;
                     break;
                 }
+                default:
+                    break;
             }
         }
         if (addCenter) {
