@@ -26,6 +26,7 @@ import elemental2.dom.HTMLImageElement;
 import elemental2.dom.Image;
 
 public abstract class ImageLoader {
+    private static final String FAILED_TO_LOAD = " failed to load";
 
     public ImageLoader(final String url) {
         this(url,
@@ -55,7 +56,7 @@ public abstract class ImageLoader {
             image.onload = null;
             image.onerror = null;
             image.remove();
-            onImageElementError("Resource " + url + " failed to load");
+            onImageElementError("Resource " + url + FAILED_TO_LOAD);
             return null;
         };
 
@@ -96,7 +97,7 @@ public abstract class ImageLoader {
             image.onload = null;
             image.onerror = null;
             image.remove();
-            onImageElementError("Resource " + resource.getName() + " failed to load");
+            onImageElementError("Resource " + resource.getName() + FAILED_TO_LOAD);
             return null;
         };
 
@@ -132,7 +133,7 @@ public abstract class ImageLoader {
                 if (image.naturalHeight + image.naturalWidth == 0 || image.height + image.width == 0) {
                     // it failed, so undo
                     RootPanel.get().remove(image);
-                    onImageElementError("Image " + url + " failed to load");
+                    onImageElementError("Image " + url + FAILED_TO_LOAD);
                     image.crossOrigin = orig;
                 } else {
                     onImageElementLoad(image);
@@ -146,7 +147,7 @@ public abstract class ImageLoader {
                 image.onerror = null;
                 // it failed, so undo
                 RootPanel.get().remove(image);
-                onImageElementError("Image " + url + " failed to load");
+                onImageElementError("Image " + url + FAILED_TO_LOAD);
                 image.crossOrigin = orig;
                 return null;
             };
