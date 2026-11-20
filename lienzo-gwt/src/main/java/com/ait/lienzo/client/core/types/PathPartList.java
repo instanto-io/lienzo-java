@@ -421,6 +421,8 @@ public class PathPartList {
                     oldx = ep.getX();
                     oldy = ep.getY();
                     break;
+                default:
+                    break;
             }
         }
         return m_box;
@@ -484,6 +486,8 @@ public class PathPartList {
                     Point2DArray pa = Geometry.getCanvasArcToPoints(p0, new Point2D(x0, y0), new Point2D(x1, y1), ra);
                     Point2D ep = pa.get(2);// this is always the end point of the path
                     points.pushXY(oldx = ep.getX(), oldy = ep.getY());
+                    break;
+                default:
                     break;
             }
         }
