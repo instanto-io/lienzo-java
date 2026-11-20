@@ -114,9 +114,9 @@ public final class NFastStringMap<V> implements JsIterable<JsIterableTypeParamet
     entries();
 
     public native Object forEach(
-            JsMap.ForEachCallbackFn<? super String, ? super V> callback, Object thisArg);
+            elemental2.core.ReadonlyMap.ForEachCallbackFn<? super String, ? super V> callback, Object thisArg);
 
-    public native Object forEach(JsMap.ForEachCallbackFn<? super String, ? super V> callback);
+    public native Object forEach(elemental2.core.ReadonlyMap.ForEachCallbackFn<? super String, ? super V> callback);
 
     public native boolean has(String key);
 
