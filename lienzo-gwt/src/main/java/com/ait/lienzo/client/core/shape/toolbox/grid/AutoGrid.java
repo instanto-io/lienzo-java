@@ -31,6 +31,8 @@ public class AutoGrid extends AbstractLayoutGrid<AutoGrid> implements SizeConstr
             case EAST:
             case WEST:
                 return true;
+            default:
+                break;
         }
         return false;
     }
