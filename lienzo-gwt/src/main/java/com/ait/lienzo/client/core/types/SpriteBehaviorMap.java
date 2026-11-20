@@ -24,6 +24,7 @@ import elemental2.core.JsArray;
 import elemental2.core.JsMap;
 
 public final class SpriteBehaviorMap {
+    private static final String BEHAVIOR_IS_NULL_OR_EMPTY = "behavior is null or empty";
 
     private final JsMap<String, JsArray<BoundingBox>> m_jso;
 
@@ -42,7 +43,7 @@ public final class SpriteBehaviorMap {
     }
 
     public final SpriteBehaviorMap addBehavior(String behavior, final BoundingBox... frames) {
-        behavior = StringOps.requireTrimOrNull(behavior, "behavior is null or empty");
+        behavior = StringOps.requireTrimOrNull(behavior, BEHAVIOR_IS_NULL_OR_EMPTY);
 
         if (null != m_jso.get(behavior)) {
             throw new IllegalStateException("behavior " + behavior + " is already defined");
@@ -61,7 +62,7 @@ public final class SpriteBehaviorMap {
     }
 
     public final SpriteBehaviorMap addBehavior(String behavior, final Collection<BoundingBox> frames) {
-        behavior = StringOps.requireTrimOrNull(behavior, "behavior is null or empty");
+        behavior = StringOps.requireTrimOrNull(behavior, BEHAVIOR_IS_NULL_OR_EMPTY);
 
         if (null != m_jso.get(behavior)) {
             throw new IllegalStateException("behavior " + behavior + " is already defined");
@@ -80,7 +81,7 @@ public final class SpriteBehaviorMap {
     }
 
     public final BoundingBox[] getFramesForBehavior(final String behavior) {
-        JsArray<BoundingBox> ajso = m_jso.get(StringOps.requireTrimOrNull(behavior, "behavior is null or empty"));
+        JsArray<BoundingBox> ajso = m_jso.get(StringOps.requireTrimOrNull(behavior, BEHAVIOR_IS_NULL_OR_EMPTY));
 
         if (ajso != null) {
             final int size = ajso.getLength();
