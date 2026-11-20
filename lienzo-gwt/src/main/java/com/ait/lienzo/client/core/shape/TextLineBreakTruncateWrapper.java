@@ -49,7 +49,7 @@ public class TextLineBreakTruncateWrapper extends TextTruncateWrapper {
     }
 
     private String[] splitWords(final String text) {
-        return text.replaceAll(LINEBREAK, " " + LINEBREAK + " ").split(WHITESPACE_REGEX);
+        return text.replace(LINEBREAK, " " + LINEBREAK + " ").split(WHITESPACE_REGEX);
     }
 
     @Override
