@@ -664,6 +664,8 @@ public class Movie extends Shape<Movie> implements ImageDataFilterable<Movie> {
             case MediaErrorWithInt.MEDIA_ERR_SRC_NOT_SUPPORTED:
                 m_error = MessageConstants.MESSAGES.movieFormatNotSupported();
                 break;
+            default:
+                break;
         }
     }
 
