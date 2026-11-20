@@ -373,6 +373,8 @@ public class ButtonGridItemImpl
             case SOUTH_EAST:
             case SOUTH_WEST:
                 return true;
+            default:
+                break;
         }
         return false;
     }
