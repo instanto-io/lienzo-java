@@ -39,6 +39,7 @@ import elemental2.dom.ImageData;
  * ImageProxy is used by {@link AbstractImageShape} to load and draw the image.
  */
 public class ImageProxy<T extends AbstractImageShape<T>> implements ImageDataFilterable<ImageProxy<T>> {
+    private static final String LOADED = "loaded ";
 
     private final T m_image;
 
@@ -184,7 +185,7 @@ public class ImageProxy<T extends AbstractImageShape<T>> implements ImageDataFil
         if ((!(m_filters.isActive())) && (ImageSelectionMode.SELECT_BOUNDS == m_image.getImageSelectionMode())) {
             m_fastout = true;
 
-            doneLoading(true, "loaded " + m_image.getURL());
+            doneLoading(true, LOADED + m_image.getURL());
         } else {
             m_fastout = false;
 
@@ -203,11 +204,11 @@ public class ImageProxy<T extends AbstractImageShape<T>> implements ImageDataFil
             doFiltering(m_normalImage, m_filterImage, m_filters);
 
             if ((!m_image.isListening()) || (ImageSelectionMode.SELECT_BOUNDS == m_image.getImageSelectionMode())) {
-                doneLoading(true, "loaded " + m_image.getURL());
+                doneLoading(true, LOADED + m_image.getURL());
             } else {
                 doFiltering(m_filterImage, m_selectImage, m_ignores);
 
-                doneLoading(true, "loaded " + m_image.getURL());
+                doneLoading(true, LOADED + m_image.getURL());
             }
         }
     }
