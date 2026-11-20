@@ -179,6 +179,8 @@ public class JsWiresShape {
                 case BACKGROUND_KEY:
                     colorsMap.put(tag, shape);
                     break;
+                default:
+                    break;
             }
         }
     }
