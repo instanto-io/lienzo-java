@@ -106,7 +106,7 @@ public class SVGPath extends Shape<SVGPath> {
         for (int n = 0; n < COMMANDS.length; n++) {
             path = path.replaceAll(COMMANDS[n] + " ", COMMANDS[n]);
         }
-        path = path.replaceAll(" ", ",");
+        path = path.replace(' ', ',');
 
         for (int n = 0; n < COMMANDS.length; n++) {
             path = path.replaceAll(COMMANDS[n], "#" + COMMANDS[n]);
@@ -122,7 +122,7 @@ public class SVGPath extends Shape<SVGPath> {
 
             char chr = str.charAt(0);
 
-            str = str.substring(1).replaceAll(",-", "-").replaceAll("-", ",-").replaceAll("e,-", "e-");
+            str = str.substring(1).replace(",-", "-").replace("-", ",-").replace("e,-", "e-");
 
             final String[] pts = str.split(",");
 
@@ -485,6 +485,8 @@ public class SVGPath extends Shape<SVGPath> {
                         cmd = PathPartEntryJSO.ARCTO_ABSOLUTE;
                         break;
                     }
+                    default:
+                        break;
                 }
                 if (cmd != PathPartEntryJSO.UNDEFINED_PATH_PART) {
                     partlist.push(PathPartEntryJSO.make(cmd, points.toArray()));
