@@ -149,7 +149,7 @@ public final class LienzoCore {
                     p = ua.indexOf(" ");
 
                     if (p >= 0) {
-                        ua = ua.substring(0, p).replaceAll("\\.", "");
+                        ua = ua.substring(0, p).replace(".", "");
 
                         try {
                             if (Integer.parseInt(ua) > 902) {
