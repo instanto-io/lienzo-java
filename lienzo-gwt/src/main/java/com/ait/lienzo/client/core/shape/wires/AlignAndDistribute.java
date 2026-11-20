@@ -273,6 +273,8 @@ public class AlignAndDistribute {
                 case DistributionEntry.RIGHT_DIST:
                     removeDistIndexEntry(m_rightDistIndex, dist);
                     break;
+                default:
+                    break;
             }
         }
         handler.getHorizontalDistributionEntries().clear();
@@ -299,6 +301,8 @@ public class AlignAndDistribute {
                     break;
                 case DistributionEntry.BOTTOM_DIST:
                     removeDistIndexEntry(m_bottomDistIndex, dist);
+                    break;
+                default:
                     break;
             }
         }
@@ -982,6 +986,8 @@ public class AlignAndDistribute {
                                 x3 = h.getLeft();
                                 y3 = h.getBottom() + 5;
                                 break;
+                            default:
+                                break;
                         }
                         drawPolyLine(index, bottom, x0, y0, x1, y1, false);
                         drawPolyLine(index + 1, bottom, x2, y2, x3, y3, false);
@@ -1032,6 +1038,8 @@ public class AlignAndDistribute {
                                 y2 = h2.getBottom();
                                 x3 = h.getRight() + 5;
                                 y3 = h.getTop();
+                                break;
+                            default:
                                 break;
                         }
                         drawPolyLine(index, right, x0, y0, x1, y1, true);
