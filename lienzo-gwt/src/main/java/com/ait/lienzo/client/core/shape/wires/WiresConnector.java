@@ -797,6 +797,8 @@ public class WiresConnector {
                                                y1);
                     break;
                 }
+                default:
+                    break;
             }
         }
 
