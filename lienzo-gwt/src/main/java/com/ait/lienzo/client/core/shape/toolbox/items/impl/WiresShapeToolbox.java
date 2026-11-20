@@ -281,6 +281,8 @@ public class WiresShapeToolbox
             case NORTH_WEST:
                 pad.setY(-margin);
                 break;
+            default:
+                break;
         }
         return pad;
     }
