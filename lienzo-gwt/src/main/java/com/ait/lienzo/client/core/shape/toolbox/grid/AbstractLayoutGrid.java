@@ -127,6 +127,8 @@ public abstract class AbstractLayoutGrid<T extends AbstractLayoutGrid> implement
             case SOUTH_WEST:
             case NORTH_WEST:
                 return false;
+            default:
+                break;
         }
         return true;
     }
@@ -137,6 +139,8 @@ public abstract class AbstractLayoutGrid<T extends AbstractLayoutGrid> implement
             case SOUTH_EAST:
             case SOUTH_WEST:
                 return false;
+            default:
+                break;
         }
         return true;
     }
