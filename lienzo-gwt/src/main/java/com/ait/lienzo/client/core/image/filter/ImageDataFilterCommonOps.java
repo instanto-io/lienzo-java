@@ -117,6 +117,8 @@ public class ImageDataFilterCommonOps {
                 g = p;
                 b = q;
                 break;
+            default:
+                break;
         }
         return new int[]{Js.coerceToInt(r * 255), Js.coerceToInt(g * 255), Js.coerceToInt(b * 255)};
     }
