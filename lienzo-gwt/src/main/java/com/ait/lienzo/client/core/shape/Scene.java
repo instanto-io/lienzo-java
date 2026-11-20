@@ -46,6 +46,7 @@ import jsinterop.base.Js;
  * </ul>
  */
 public class Scene extends ContainerNode<Layer, Scene> {
+    private static final String DATA = "data:,";
 
     private int m_wide = 0;
 
@@ -588,7 +589,7 @@ public class Scene extends ContainerNode<Layer, Scene> {
             }
             return scratch.toDataURL();
         } else {
-            return "data:,";
+            return DATA;
         }
     }
 
@@ -637,7 +638,7 @@ public class Scene extends ContainerNode<Layer, Scene> {
             }
             return scratch.toDataURL();
         } else {
-            return "data:,";
+            return DATA;
         }
     }
 
@@ -681,7 +682,7 @@ public class Scene extends ContainerNode<Layer, Scene> {
             }
             return scratch.toDataURL(mimetype, 1.0);
         } else {
-            return "data:,";
+            return DATA;
         }
     }
 
@@ -730,7 +731,7 @@ public class Scene extends ContainerNode<Layer, Scene> {
             }
             return scratch.toDataURL(mimetype, 1.0);
         } else {
-            return "data:,";
+            return DATA;
         }
     }
 
