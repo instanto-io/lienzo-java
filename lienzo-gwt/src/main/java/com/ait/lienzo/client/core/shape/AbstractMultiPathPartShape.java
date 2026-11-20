@@ -643,6 +643,8 @@ public abstract class AbstractMultiPathPartShape<T extends AbstractMultiPathPart
 
                         break;
                     }
+                    default:
+                        break;
                 }
                 m_shape.resetBoundingBox();
 
@@ -688,6 +690,8 @@ public abstract class AbstractMultiPathPartShape<T extends AbstractMultiPathPart
 
                             break;
                         }
+                        default:
+                            break;
                     }
                 }
             }
@@ -767,6 +771,8 @@ public abstract class AbstractMultiPathPartShape<T extends AbstractMultiPathPart
                 case 2:
                     newX = getRight(startTopLeftX, startW, dx, wpc);
                     break;
+                default:
+                    break;
             }
 
             return newX;
@@ -783,6 +789,8 @@ public abstract class AbstractMultiPathPartShape<T extends AbstractMultiPathPart
                 case 2:
                 case 3:
                     newY = getBottom(startTopLeftY, startH, dy, hpc);
+                    break;
+                default:
                     break;
             }
 
@@ -823,6 +831,8 @@ public abstract class AbstractMultiPathPartShape<T extends AbstractMultiPathPart
                     bottomRight.getControl().setY(offsetY + boxStartY + boxStartHeight + dy);
                     break;
                 }
+                default:
+                    break;
             }
         }
 
@@ -965,6 +975,8 @@ public abstract class AbstractMultiPathPartShape<T extends AbstractMultiPathPart
                             ratioPos = ratioPos + 6;
                             break;
                         }
+                        default:
+                            break;
                     }
                 }
                 list.resetBoundingBox();
@@ -1001,6 +1013,8 @@ public abstract class AbstractMultiPathPartShape<T extends AbstractMultiPathPart
                 case BOTTOM_RIGHT:
                     newX = getRight(startTopLeftX, startW, dx, wpc);
                     break;
+                default:
+                    break;
             }
 
             return newX;
@@ -1017,6 +1031,8 @@ public abstract class AbstractMultiPathPartShape<T extends AbstractMultiPathPart
                 case BOTTOM_LEFT:
                 case BOTTOM_RIGHT:
                     newY = getBottom(startTopLeftY, startH, dy, hpc);
+                    break;
+                default:
                     break;
             }
 
@@ -1072,6 +1088,8 @@ public abstract class AbstractMultiPathPartShape<T extends AbstractMultiPathPart
                             shiftPoints(dxy, points, 3);
                             break;
                         }
+                        default:
+                            break;
                     }
                 }
                 list.resetBoundingBox();
@@ -1165,6 +1183,8 @@ public abstract class AbstractMultiPathPartShape<T extends AbstractMultiPathPart
                     }
                     break;
                 }
+                default:
+                    break;
             }
 
             switch (m_handle.getPosition()) {
@@ -1184,6 +1204,8 @@ public abstract class AbstractMultiPathPartShape<T extends AbstractMultiPathPart
                     }
                     break;
                 }
+                default:
+                    break;
             }
 
             if (!flipV && !flipH) {
@@ -1260,6 +1282,8 @@ public abstract class AbstractMultiPathPartShape<T extends AbstractMultiPathPart
                             ratioPos = ratioPos + 6;
                             break;
                         }
+                        default:
+                            break;
                     }
                 }
                 m_shape.m_pointRatios = reversed;
@@ -1291,6 +1315,8 @@ public abstract class AbstractMultiPathPartShape<T extends AbstractMultiPathPart
                                 addPointRatio(pointRatios, points, 4);
                                 break;
                             }
+                            default:
+                                break;
                         }
                     }
                 }
@@ -1395,6 +1421,8 @@ public abstract class AbstractMultiPathPartShape<T extends AbstractMultiPathPart
                     break;
                 case 3: //bl
                     x *= -1;
+                    break;
+                default:
                     break;
             }
 
