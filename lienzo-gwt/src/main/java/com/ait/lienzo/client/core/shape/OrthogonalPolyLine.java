@@ -173,6 +173,8 @@ public class OrthogonalPolyLine extends AbstractDirectionalMultiPointShape<Ortho
                             headDirection = NORTH;
                         }
                         break;
+                    default:
+                        break;
                 }
                 break;
             }
