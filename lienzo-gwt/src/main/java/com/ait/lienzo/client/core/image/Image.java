@@ -360,7 +360,7 @@ public class Image
      * @return Picture
      */
     protected void setURL(final String url) {
-        this.url = Picture.toValidURL(url);
+        this.url = com.ait.lienzo.client.core.shape.AbstractImageShape.toValidURL(url);
     }
 
     @Override
