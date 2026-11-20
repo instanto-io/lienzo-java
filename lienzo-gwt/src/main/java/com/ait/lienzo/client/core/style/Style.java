@@ -21,6 +21,7 @@
 package com.ait.lienzo.client.core.style;
 
 public class Style {
+    private static final String HIDDEN_CLASS = "hidden";
 
     public enum BorderStyle {
         NONE {
@@ -40,7 +41,7 @@ public class Style {
         },
         HIDDEN {
             public String getCssName() {
-                return "hidden";
+                return HIDDEN_CLASS;
             }
         },
         SOLID {
@@ -305,7 +306,7 @@ public class Style {
         },
         HIDDEN {
             public String getCssName() {
-                return "hidden";
+                return HIDDEN_CLASS;
             }
         },
         SCROLL {
@@ -405,7 +406,7 @@ public class Style {
         },
         HIDDEN {
             public String getCssName() {
-                return "hidden";
+                return HIDDEN_CLASS;
             }
         };
 
