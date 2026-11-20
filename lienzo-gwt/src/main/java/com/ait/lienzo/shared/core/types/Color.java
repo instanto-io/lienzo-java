@@ -37,6 +37,7 @@ import com.ait.lienzo.client.core.util.StringFormatter;
  * @see <a href="http://www.w3.org/TR/css3-color/">CSS Color Module Level 3</a>
  */
 public class Color implements IColor {
+    private static final String RGBA_PREFIX = "rgba(";
 
     private int m_r;
 
@@ -186,7 +187,7 @@ public class Color implements IColor {
      * @return String e.g. "rgba(12,34,255,0.5)"
      */
     public static final String toBrowserRGBA(final int r, final int g, final int b, final double a) {
-        return "rgba(" + fixRGB(r) + "," + fixRGB(g) + "," + fixRGB(b) + "," + fixAlpha(a) + ")";
+        return RGBA_PREFIX + fixRGB(r) + "," + fixRGB(g) + "," + fixRGB(b) + "," + fixAlpha(a) + ")";
     }
 
     /**
@@ -256,7 +257,7 @@ public class Color implements IColor {
      * @see <a href="http://www.w3.org/TR/css3-color/">CSS Color Module Level 3</a>
      */
     public static Color fromColorString(final String cssColorString) {
-        String str = cssColorString.toLowerCase().replaceAll(" ", "");
+        String str = cssColorString.toLowerCase().replace(" ", "");
 
         try {
             if (str.startsWith("#")) {
@@ -277,7 +278,7 @@ public class Color implements IColor {
 
                         return new Color(r, g, b);
                     }
-                    if (str.startsWith("rgba(")) {
+                    if (str.startsWith(RGBA_PREFIX)) {
                         final String[] rgba = str.substring(5, str.length() - 1).split(",");
 
                         if (rgba.length != 4) {
@@ -598,7 +599,7 @@ public class Color implements IColor {
      * @return String
      */
     public String getRGBA() {
-        return "rgba(" + getR() + "," + getG() + "," + getB() + "," + getA() + ")";
+        return RGBA_PREFIX + getR() + "," + getG() + "," + getB() + "," + getA() + ")";
     }
 
     /**
@@ -672,11 +673,11 @@ public class Color implements IColor {
         // RETURN m1
 
         if (h < 0) {
-            h++;
+            h += 1;
         }
 
         if (h > 1) {
-            h--;
+            h -= 1;
         }
 
         if (h * 6 < 1) {
