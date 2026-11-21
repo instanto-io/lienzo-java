@@ -41,33 +41,28 @@ public class TweeningAnimation extends TimedAnimation {
 
     @Override
     public IAnimation doStart() {
-        if ((null != m_properties) && (m_properties.size() > 0)) {
-            m_workingset = new NFastArrayList<>();
-
-            final Node<?> node = getNode();
-
-            final int size = m_properties.size();
-
-            for (int i = 0; i < size; i++) {
-                AnimationProperty property = m_properties.get(i);
-
-                if (null != property) {
-                    if (property.isStateful()) {
-                        property = property.copy();
-                    }
-                    if (null != property) {
-                        if (property.init(node)) {
-                            m_workingset.add(property);
-
-                            m_refreshing = m_refreshing || property.isRefreshing();
-                        }
-                    }
-                }
-            }
+        if (m_properties != null && m_properties.size() > 0) {
+            initializeProperties();
         }
         apply(0.0);
 
         return super.doStart();
+    }
+
+    private void initializeProperties() {
+        m_workingset = new NFastArrayList<>();
+        final Node<?> node = getNode();
+        final int size = m_properties.size();
+        for (int i = 0; i < size; i++) {
+            AnimationProperty property = m_properties.get(i);
+            if (property == null) continue;
+            if (property.isStateful()) {
+                property = property.copy();
+            }
+            if (property == null || !property.init(node)) continue;
+            m_workingset.add(property);
+            m_refreshing = m_refreshing || property.isRefreshing();
+        }
     }
 
     @Override
