@@ -129,7 +129,7 @@ public final class RadialGradient implements FillGradient {
             setValues(sx, sy, ex, ey, grad);
             grad.sr = sr;
             grad.er = er;
-            grad.type = "RadialGradient";
+            grad.type = TYPE;
             return grad;
         }
     }
