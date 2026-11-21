@@ -142,6 +142,7 @@ public final class EventFilter {
 
         @Override
         public final void setEnabled(boolean enabled) {
+            // The accept-all filter is always enabled.
         }
     }
 
