@@ -189,6 +189,7 @@ public abstract class AbstractFocusableGroupItem<T extends AbstractFocusableGrou
                    new Runnable() {
                        @Override
                        public void run() {
+                           // The focus change needs no work after the alpha animation.
                        }
                    });
         }
