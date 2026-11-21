@@ -131,7 +131,7 @@ public class WiresParentPickerControlImpl implements WiresParentPickerControl,
 
     @Override
     public void onMouseClick(MouseEvent event) {
-
+        // Parent changes are tracked between mouse down and mouse up.
     }
 
     @Override
