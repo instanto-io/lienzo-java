@@ -36,6 +36,7 @@ import jsinterop.annotations.JsType;
 public final class NFastStringMap<V> implements JsIterable<JsIterableTypeParameterArrayUnionType<String, V>[]> {
 
     public NFastStringMap() {
+        // JavaScript constructs the native map.
     }
 
     /**
