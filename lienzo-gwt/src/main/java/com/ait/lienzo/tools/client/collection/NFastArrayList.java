@@ -36,6 +36,7 @@ public final class NFastArrayList<M> extends NArrayBase<M> {
     }
 
     public NFastArrayList() {
+        // JavaScript constructs the native array.
     }
 
     /**
