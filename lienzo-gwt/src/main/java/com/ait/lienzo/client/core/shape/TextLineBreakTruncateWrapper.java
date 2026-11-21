@@ -102,15 +102,7 @@ public class TextLineBreakTruncateWrapper extends TextTruncateWrapper {
 
             int lineIndex = lines.size() + 1;
             if (!hasVerticalSpace(lineIndex, getLineHeight(), getRemainingHeight(lineIndex)) && !lines.isEmpty()) {
-                final int lastWordIndex = lines.size() - 1;
-                final String endWord = lines.get(lastWordIndex);
-                final String truncated =
-                        (endWord.length() > 3 ? endWord.substring(0, endWord.length() - 4) : endWord) + "...";
-                lines.remove(lastWordIndex);
-                //add if it has space to draw the truncated word
-                if (hasHorizontalSpaceToDraw(truncated, "", boundariesWidth)) {
-                    lines.add(truncated);
-                }
+                truncateLastLine(lines, boundariesWidth);
                 break;
             }
 
@@ -122,25 +114,8 @@ public class TextLineBreakTruncateWrapper extends TextTruncateWrapper {
             }
 
             if (!hasHorizontalSpaceToDraw(currentLine.toString(), currentWord, boundariesWidth)) {
-                //find the currentWord max char index that fits the boundariesWidth
-                final int splitCharIndex = getSplitCharIndexToFitWidth(boundariesWidth, currentLine.toString(),
-                                                                       currentWord);
-
-                //spliting the word to fit the boundaries width
-                String remainingWord = currentWord.substring(splitCharIndex);
-                String truncated = currentWord.substring(0, splitCharIndex);
-
-                //handle splited word in case it is short, breaking to the next line
-                if (remainingWord.length() < MAX_LENGHT_TO_WRAP && currentLine.length() > 0) {
-                    truncated = "";
-                    remainingWord = currentWord;
-                }
-
-                currentLine.append(truncated);
-                flushLine(lines, currentLine);
-
-                //reprocess the remainingWord (i--)
-                words[i--] = remainingWord;
+                words[i] = splitOntoNextLine(currentWord, boundariesWidth, currentLine, lines);
+                i--;
                 continue;
             }
 
@@ -155,6 +130,40 @@ public class TextLineBreakTruncateWrapper extends TextTruncateWrapper {
 
         this.textLines.addAll(lines);
         return lines;
+    }
+
+    private void truncateLastLine(List<String> lines, double boundariesWidth) {
+        final int lastWordIndex = lines.size() - 1;
+        final String endWord = lines.get(lastWordIndex);
+        final String truncated =
+                (endWord.length() > 3 ? endWord.substring(0, endWord.length() - 4) : endWord) + "...";
+        lines.remove(lastWordIndex);
+        //add if it has space to draw the truncated word
+        if (hasHorizontalSpaceToDraw(truncated, "", boundariesWidth)) {
+            lines.add(truncated);
+        }
+    }
+
+    private String splitOntoNextLine(String currentWord, double boundariesWidth,
+                                    StringBuilder currentLine, List<String> lines) {
+        //find the currentWord max char index that fits the boundariesWidth
+        final int splitCharIndex = getSplitCharIndexToFitWidth(boundariesWidth, currentLine.toString(),
+                                                               currentWord);
+
+        //spliting the word to fit the boundaries width
+        String remainingWord = currentWord.substring(splitCharIndex);
+        String truncated = currentWord.substring(0, splitCharIndex);
+
+        //handle splited word in case it is short, breaking to the next line
+        if (remainingWord.length() < MAX_LENGHT_TO_WRAP && currentLine.length() > 0) {
+            truncated = "";
+            remainingWord = currentWord;
+        }
+
+        currentLine.append(truncated);
+        flushLine(lines, currentLine);
+
+        return remainingWord;
     }
 
     private int getSplitCharIndexToFitWidth(double boundariesWidth, String currentLine, String currentWord) {
