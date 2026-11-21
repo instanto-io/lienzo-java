@@ -214,19 +214,21 @@ public class PolyLine extends AbstractDirectionalMultiPointShape<PolyLine> {
             yDiffAfter = target.getY() - after.getY();
         }
 
-        if (Math.abs(xDiffBefore) < Math.abs(xDiffAfter) && Math.abs(xDiffBefore) <= SEGMENT_SNAP_DISTANCE) {
-            target.setX(target.getX() - xDiffBefore);
-        } else if (Math.abs(xDiffAfter) <= SEGMENT_SNAP_DISTANCE) {
-            target.setX(target.getX() - xDiffAfter);
-        }
-
-        if (Math.abs(yDiffBefore) < Math.abs(yDiffAfter) && Math.abs(yDiffBefore) <= SEGMENT_SNAP_DISTANCE) {
-            target.setY(target.getY() - yDiffBefore);
-        } else if (Math.abs(yDiffAfter) <= SEGMENT_SNAP_DISTANCE) {
-            target.setY(target.getY() - yDiffAfter);
-        }
-
+        double xOffset = snapOffset(xDiffBefore, xDiffAfter);
+        if (!Double.isNaN(xOffset)) target.setX(target.getX() - xOffset);
+        double yOffset = snapOffset(yDiffBefore, yDiffAfter);
+        if (!Double.isNaN(yOffset)) target.setY(target.getY() - yOffset);
         return new Point2D(target.getX(), target.getY());
+    }
+
+    private static double snapOffset(double before, double after) {
+        if (Math.abs(before) < Math.abs(after) && Math.abs(before) <= SEGMENT_SNAP_DISTANCE) {
+            return before;
+        }
+        if (Math.abs(after) <= SEGMENT_SNAP_DISTANCE) {
+            return after;
+        }
+        return Double.NaN;
     }
 
     @Override
