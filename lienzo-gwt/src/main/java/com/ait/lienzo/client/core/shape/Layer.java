@@ -908,6 +908,7 @@ public class Layer extends ContainerNode<IPrimitive<?>, Layer> {
 
             @Override
             public void setGlobalAlpha(final double alpha) {
+                // Color-coded hit testing requires fully opaque pixels.
             }
         }
     }
