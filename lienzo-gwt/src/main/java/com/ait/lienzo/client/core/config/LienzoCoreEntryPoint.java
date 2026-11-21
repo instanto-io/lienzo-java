@@ -22,5 +22,6 @@ public final class LienzoCoreEntryPoint implements EntryPoint {
 
     @Override
     public final void onModuleLoad() {
+        // The core module provides types and resources without startup work.
     }
 }
