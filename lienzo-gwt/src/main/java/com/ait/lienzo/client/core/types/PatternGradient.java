@@ -114,7 +114,7 @@ public final class PatternGradient implements FillGradient {
             PatternGradientJSO grad = new PatternGradientJSO();
             grad.src = s;
             grad.repeat = r;
-            grad.type = "PatternGradient";
+            grad.type = TYPE;
             grad.image = e;
             return grad;
         }
