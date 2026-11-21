@@ -105,6 +105,7 @@ public class WiresContainmentControlImpl extends AbstractWiresControl<WiresConta
 
     @Override
     public void clear() {
+        // The parent picker owns the temporary containment state.
     }
 
     @Override
