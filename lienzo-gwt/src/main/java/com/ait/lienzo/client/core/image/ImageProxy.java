@@ -412,56 +412,60 @@ public class ImageProxy<T extends AbstractImageShape<T>> implements ImageDataFil
     private final void doUpdateCheck() {
         ImageClipBounds bounds = m_image.getImageClipBounds();
 
-        if (m_obounds == null || m_obounds.isDifferent(bounds)) {
-            m_obounds = bounds;
+        if (m_obounds != null && !m_obounds.isDifferent(bounds)) return;
 
-            m_clip_xpos = m_obounds.getClipXPos();
+        updateBounds(bounds);
+        m_fastout = !m_filters.isActive()
+                && ImageSelectionMode.SELECT_BOUNDS == m_image.getImageSelectionMode();
+        if (!m_fastout) rebuildImages();
+    }
 
-            m_clip_ypos = m_obounds.getClipYPos();
+    private void updateBounds(ImageClipBounds bounds) {
+        m_obounds = bounds;
 
-            m_clip_wide = m_obounds.getClipWide();
+        m_clip_xpos = m_obounds.getClipXPos();
 
-            m_clip_high = m_obounds.getClipHigh();
+        m_clip_ypos = m_obounds.getClipYPos();
 
-            m_dest_wide = m_obounds.getDestWide();
+        m_clip_wide = m_obounds.getClipWide();
 
-            m_dest_high = m_obounds.getDestHigh();
+        m_clip_high = m_obounds.getClipHigh();
 
-            if (m_clip_wide == 0) {
-                m_clip_wide = m_jsimg.width;
-            }
-            if (m_clip_high == 0) {
-                m_clip_high = m_jsimg.height;
-            }
-            if (m_dest_wide == 0) {
-                m_dest_wide = m_clip_wide;
-            }
-            if (m_dest_high == 0) {
-                m_dest_high = m_clip_high;
-            }
-            if ((!(m_filters.isActive())) && (ImageSelectionMode.SELECT_BOUNDS == m_image.getImageSelectionMode())) {
-                m_fastout = true;
-            } else {
-                m_fastout = false;
+        m_dest_wide = m_obounds.getDestWide();
 
-                m_normalImage.setPixelSize(m_dest_wide, m_dest_high);
+        m_dest_high = m_obounds.getDestHigh();
 
-                m_filterImage.setPixelSize(m_dest_wide, m_dest_high);
+        if (m_clip_wide == 0) {
+            m_clip_wide = m_jsimg.width;
+        }
+        if (m_clip_high == 0) {
+            m_clip_high = m_jsimg.height;
+        }
+        if (m_dest_wide == 0) {
+            m_dest_wide = m_clip_wide;
+        }
+        if (m_dest_high == 0) {
+            m_dest_high = m_clip_high;
+        }
+    }
 
-                m_selectImage.setPixelSize(m_dest_wide, m_dest_high);
+    private void rebuildImages() {
+        m_normalImage.setPixelSize(m_dest_wide, m_dest_high);
 
-                m_normalImage.clear();
+        m_filterImage.setPixelSize(m_dest_wide, m_dest_high);
 
-                m_normalImage.getContext().drawImage(m_jsimg, m_clip_xpos, m_clip_ypos, m_clip_wide, m_clip_high, 0, 0, m_dest_wide, m_dest_high);
+        m_selectImage.setPixelSize(m_dest_wide, m_dest_high);
 
-                m_x_forms = m_filters.isTransforming();
+        m_normalImage.clear();
 
-                doFiltering(m_normalImage, m_filterImage, m_filters);
+        m_normalImage.getContext().drawImage(m_jsimg, m_clip_xpos, m_clip_ypos, m_clip_wide, m_clip_high, 0, 0, m_dest_wide, m_dest_high);
 
-                if ((m_image.isListening()) && (ImageSelectionMode.SELECT_NON_TRANSPARENT == m_image.getImageSelectionMode())) {
-                    doFiltering(m_filterImage, m_selectImage, m_ignores);
-                }
-            }
+        m_x_forms = m_filters.isTransforming();
+
+        doFiltering(m_normalImage, m_filterImage, m_filters);
+
+        if ((m_image.isListening()) && (ImageSelectionMode.SELECT_NON_TRANSPARENT == m_image.getImageSelectionMode())) {
+            doFiltering(m_filterImage, m_selectImage, m_ignores);
         }
     }
 
