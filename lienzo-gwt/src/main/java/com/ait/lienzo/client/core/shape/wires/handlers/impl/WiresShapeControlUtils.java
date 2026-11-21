@@ -67,19 +67,15 @@ public class WiresShapeControlUtils {
 
     public static NFastArrayList<WiresConnector> getConnectors(final WiresShape shape) {
         final NFastArrayList<WiresConnector> connectors = new NFastArrayList<>();
-        if (null != shape && null != shape.getMagnets()) {
-            final MagnetManager.Magnets magnets = shape.getMagnets();
-            for (int i = 0; i < magnets.size(); i++) {
-                final WiresMagnet magnet = magnets.getMagnet(i);
-                if (null != magnet && null != magnet.getConnections()) {
-                    final NFastArrayList<WiresConnection> connections = magnet.getConnections();
-                    for (WiresConnection connection : connections.asList()) {
-                        final WiresConnector connector = connection.getConnector();
-                        if (null != connector) {
-                            connectors.add(connector);
-                        }
-                    }
-                }
+        if (shape == null || shape.getMagnets() == null) return connectors;
+
+        final MagnetManager.Magnets magnets = shape.getMagnets();
+        for (int i = 0; i < magnets.size(); i++) {
+            final WiresMagnet magnet = magnets.getMagnet(i);
+            if (magnet == null || magnet.getConnections() == null) continue;
+            for (WiresConnection connection : magnet.getConnections().asList()) {
+                final WiresConnector connector = connection.getConnector();
+                if (connector != null) connectors.add(connector);
             }
         }
         return connectors;
