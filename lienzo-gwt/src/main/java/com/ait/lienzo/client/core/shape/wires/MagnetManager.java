@@ -60,9 +60,6 @@ public class MagnetManager {
 
     private MagnetDecorator m_magnetDecorator = new MagnetDecorator();
 
-    public MagnetManager() {
-    }
-
     public ImageData drawMagnetsToBack(Magnets magnets, NFastStringMap<WiresShape> shapeColors, NFastStringMap<WiresMagnet> magnetColors, ScratchPad scratch) {
         scratch.clear();
         Context2D ctx = scratch.getContext();
