@@ -614,6 +614,7 @@ public class ImageProxy<T extends AbstractImageShape<T>> implements ImageDataFil
 
         @Override
         public void setActive(boolean active) {
+            // The pass-through filter is always active.
         }
 
         @Override
