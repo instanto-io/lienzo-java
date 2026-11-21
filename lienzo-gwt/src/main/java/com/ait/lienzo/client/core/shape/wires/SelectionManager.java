@@ -338,7 +338,7 @@ public class SelectionManager implements NodeMouseDoubleClickHandler,
 
         @Override
         public void onMouseEventAfter(MouseEvent event) {
-
+            // Selection is handled before the mouse event is dispatched.
         }
     }
 
