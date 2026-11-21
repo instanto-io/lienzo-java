@@ -390,26 +390,21 @@ public class Layer extends ContainerNode<IPrimitive<?>, Layer> {
     }
 
     private final Layer doShowSelectionLayer(final boolean shower) {
-        if (!isSelection()) {
-            if (null != m_select) {
-                while (getElement().childElementCount > 0) {
-                    getElement().removeChild(getElement().childNodes.getAt(0));
-                }
-                HTMLCanvasElement element = getCanvasElement();
+        if (isSelection() || m_select == null) return this;
 
-                if (null != element) {
-                    getElement().appendChild(element);
-                }
-                if (shower) {
-                    element = m_select.getCanvasElement();
+        while (getElement().childElementCount > 0) {
+            getElement().removeChild(getElement().childNodes.getAt(0));
+        }
 
-                    if (null != element) {
-                        getElement().appendChild(element);
-                    }
-                }
-            }
+        appendCanvasIfAvailable(getCanvasElement());
+        if (shower) {
+            appendCanvasIfAvailable(m_select.getCanvasElement());
         }
         return this;
+    }
+
+    private void appendCanvasIfAvailable(HTMLCanvasElement canvas) {
+        if (canvas != null) getElement().appendChild(canvas);
     }
 
     /**
