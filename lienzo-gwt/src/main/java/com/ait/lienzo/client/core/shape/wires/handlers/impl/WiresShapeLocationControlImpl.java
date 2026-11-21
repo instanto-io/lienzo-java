@@ -102,6 +102,7 @@ public class WiresShapeLocationControlImpl implements WiresShapeLocationControl 
 
     @Override
     public void onMoveComplete() {
+        // The final position is applied by execute().
     }
 
     @Override
