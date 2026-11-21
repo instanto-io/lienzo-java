@@ -302,52 +302,58 @@ public final class StringOps {
             if (((c >= 'a') && (c <= 'z')) || ((c >= 'A') && (c <= 'Z')) || (c == ' ') || ((c >= '0') && (c <= '9'))) {
                 builder.append(c);// ASCII will be most common, this improves write speed about 5%, FWIW.
             } else {
-                switch (c) {
-                    case '"':
-                        builder.append("\\\"");
-                        break;
-                    case '\\':
-                        builder.append("\\\\");
-                        break;
-                    case '\b':
-                        builder.append("\\b");
-                        break;
-                    case '\f':
-                        builder.append("\\f");
-                        break;
-                    case '\n':
-                        builder.append("\\n");
-                        break;
-                    case '\r':
-                        builder.append("\\r");
-                        break;
-                    case '\t':
-                        builder.append("\\t");
-                        break;
-                    case '/':
-                        builder.append("\\/");
-                        break;
-                    default:
-                        // Reference: http://www.unicode.org/versions/Unicode5.1.0/
-
-                        if (((c >= '\u0000') && (c <= '\u001F')) || ((c >= '\u007F') && (c <= '\u009F')) || ((c >= '\u2000') && (c <= '\u20FF'))) {
-                            final String unic = Integer.toHexString(c);
-
-                            final int size = 4 - unic.length();
-
-                            builder.append("\\u");
-
-                            for (int k = 0; k < size; k++) {
-                                builder.append('0');
-                            }
-                            builder.append(unic.toUpperCase());
-                        } else {
-                            builder.append(c);
-                        }
-                        break;
-                }
+                appendEscapedCharacter(c, builder);
             }
         }
         return builder;
+    }
+
+    private static void appendEscapedCharacter(char c, StringBuilder builder) {
+        switch (c) {
+            case '"':
+                builder.append("\\\"");
+                break;
+            case '\\':
+                builder.append("\\\\");
+                break;
+            case '\b':
+                builder.append("\\b");
+                break;
+            case '\f':
+                builder.append("\\f");
+                break;
+            case '\n':
+                builder.append("\\n");
+                break;
+            case '\r':
+                builder.append("\\r");
+                break;
+            case '\t':
+                builder.append("\\t");
+                break;
+            case '/':
+                builder.append("\\/");
+                break;
+            default:
+                appendOtherCharacter(c, builder);
+                break;
+        }
+    }
+
+    private static void appendOtherCharacter(char c, StringBuilder builder) {
+        if (((c >= '\u0000') && (c <= '\u001F')) || ((c >= '\u007F') && (c <= '\u009F')) || ((c >= '\u2000') && (c <= '\u20FF'))) {
+            final String unic = Integer.toHexString(c);
+
+            final int size = 4 - unic.length();
+
+            builder.append("\\u");
+
+            for (int k = 0; k < size; k++) {
+                builder.append('0');
+            }
+            builder.append(unic.toUpperCase());
+        } else {
+            builder.append(c);
+        }
     }
 }
