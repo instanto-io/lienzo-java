@@ -550,189 +550,53 @@ public class Scene extends ContainerNode<Layer, Scene> {
     }
 
     public final String toDataURL() {
-        if (LienzoCore.IS_CANVAS_SUPPORTED) {
-            final ScratchPad scratch = new ScratchPad(getWidth(), getHeight());
-
-            final Context2D context = scratch.getContext();
-
-            final NFastArrayList<Layer> layers = getChildNodes();
-
-            BoundingBox bbox = getStorageBounds();
-
-            if (null == bbox) {
-                Viewport viewport = getViewport();
-
-                if (null != viewport) {
-                    bbox = viewport.getStorageBounds();
-                }
-            }
-            if (null != layers) {
-                final int size = layers.size();
-
-                final IPathClipper clip = getPathClipper();
-
-                if ((null != clip) && (clip.isActive())) {
-                    context.save();
-
-                    clip.clip(context);
-                }
-                for (int i = size - 1; i >= 0; i--) {
-                    final Layer layer = layers.get(i);
-
-                    if ((null != layer) && (layer.isVisible())) {
-                        layer.drawWithTransforms(context, 1, bbox);
-                    }
-                }
-                if ((null != clip) && (clip.isActive())) {
-                    context.restore();
-                }
-            }
-            return scratch.toDataURL();
-        } else {
-            return DATA;
-        }
+        return toDataURL((Layer) null);
     }
 
-    // package protected
-
     final String toDataURL(final Layer background) {
-        if (LienzoCore.IS_CANVAS_SUPPORTED) {
-            final ScratchPad scratch = new ScratchPad(getWidth(), getHeight());
-
-            final Context2D context = scratch.getContext();
-
-            final NFastArrayList<Layer> layers = getChildNodes();
-
-            BoundingBox bbox = getStorageBounds();
-
-            if (null == bbox) {
-                Viewport viewport = getViewport();
-
-                if (null != viewport) {
-                    bbox = viewport.getStorageBounds();
-                }
-            }
-            if (null != layers) {
-                final int size = layers.size();
-
-                if (null != background) {
-                    background.drawWithTransforms(context, 1, bbox);
-                }
-                final IPathClipper clip = getPathClipper();
-
-                if ((null != clip) && (clip.isActive())) {
-                    context.save();
-
-                    clip.clip(context);
-                }
-                for (int i = size - 1; i >= 0; i--) {
-                    final Layer layer = layers.get(i);
-
-                    if ((null != layer) && (layer.isVisible())) {
-                        layer.drawWithTransforms(context, 1, bbox);
-                    }
-                }
-                if ((null != clip) && (clip.isActive())) {
-                    context.restore();
-                }
-            }
-            return scratch.toDataURL();
-        } else {
-            return DATA;
-        }
+        if (!LienzoCore.IS_CANVAS_SUPPORTED) return DATA;
+        return drawForExport(background).toDataURL();
     }
 
     public final String toDataURL(final DataURLType mimetype) {
-        if (LienzoCore.IS_CANVAS_SUPPORTED) {
-            final ScratchPad scratch = new ScratchPad(getWidth(), getHeight());
-
-            final Context2D context = scratch.getContext();
-
-            final NFastArrayList<Layer> layers = getChildNodes();
-
-            BoundingBox bbox = getStorageBounds();
-
-            if (null == bbox) {
-                Viewport viewport = getViewport();
-
-                if (null != viewport) {
-                    bbox = viewport.getStorageBounds();
-                }
-            }
-            if (null != layers) {
-                final int size = layers.size();
-
-                final IPathClipper clip = getPathClipper();
-
-                if ((null != clip) && (clip.isActive())) {
-                    context.save();
-
-                    clip.clip(context);
-                }
-                for (int i = size - 1; i >= 0; i--) {
-                    final Layer layer = layers.get(i);
-
-                    if ((null != layer) && (layer.isVisible())) {
-                        layer.drawWithTransforms(context, 1, bbox);
-                    }
-                }
-                if ((null != clip) && (clip.isActive())) {
-                    context.restore();
-                }
-            }
-            return scratch.toDataURL(mimetype, 1.0);
-        } else {
-            return DATA;
-        }
+        return toDataURL(mimetype, null);
     }
 
-    // package protected
-
     final String toDataURL(final DataURLType mimetype, final Layer background) {
-        if (LienzoCore.IS_CANVAS_SUPPORTED) {
-            final ScratchPad scratch = new ScratchPad(getWidth(), getHeight());
+        if (!LienzoCore.IS_CANVAS_SUPPORTED) return DATA;
+        return drawForExport(background).toDataURL(mimetype, 1.0);
+    }
 
-            final Context2D context = scratch.getContext();
+    private ScratchPad drawForExport(Layer background) {
+        final ScratchPad scratch = new ScratchPad(getWidth(), getHeight());
+        final Context2D context = scratch.getContext();
+        final NFastArrayList<Layer> layers = getChildNodes();
+        final BoundingBox bounds = exportBounds();
+        if (layers == null) return scratch;
 
-            final NFastArrayList<Layer> layers = getChildNodes();
+        final int size = layers.size();
+        if (background != null) background.drawWithTransforms(context, 1, bounds);
 
-            BoundingBox bbox = getStorageBounds();
-
-            if (null == bbox) {
-                Viewport viewport = getViewport();
-
-                if (null != viewport) {
-                    bbox = viewport.getStorageBounds();
-                }
-            }
-            if (null != layers) {
-                final int size = layers.size();
-
-                if (null != background) {
-                    background.drawWithTransforms(context, 1, bbox);
-                }
-                final IPathClipper clip = getPathClipper();
-
-                if ((null != clip) && (clip.isActive())) {
-                    context.save();
-
-                    clip.clip(context);
-                }
-                for (int i = size - 1; i >= 0; i--) {
-                    final Layer layer = layers.get(i);
-
-                    if ((null != layer) && (layer.isVisible())) {
-                        layer.drawWithTransforms(context, 1, bbox);
-                    }
-                }
-                if ((null != clip) && (clip.isActive())) {
-                    context.restore();
-                }
-            }
-            return scratch.toDataURL(mimetype, 1.0);
-        } else {
-            return DATA;
+        final IPathClipper clip = getPathClipper();
+        if (clip != null && clip.isActive()) {
+            context.save();
+            clip.clip(context);
         }
+        for (int i = size - 1; i >= 0; i--) {
+            final Layer layer = layers.get(i);
+            if (layer != null && layer.isVisible()) {
+                layer.drawWithTransforms(context, 1, bounds);
+            }
+        }
+        if (clip != null && clip.isActive()) context.restore();
+        return scratch;
+    }
+
+    private BoundingBox exportBounds() {
+        BoundingBox bounds = getStorageBounds();
+        if (bounds != null) return bounds;
+        Viewport viewport = getViewport();
+        return viewport == null ? null : viewport.getStorageBounds();
     }
 
     @Override
