@@ -718,19 +718,21 @@ public class SelectionManager implements NodeMouseDoubleClickHandler,
         private void updateExternallyConnectedOnShapeRemove(WiresShape shape) {
             if (shape.getMagnets() != null) {
                 for (int i = 0; i < shape.getMagnets().size(); i++) {
-                    WiresMagnet magnet = shape.getMagnets().getMagnet(i);
-                    if (magnet.getConnections() != null) {
-                        for (WiresConnection connection : magnet.getConnections().asList()) {
-                            WiresConnector wiresConnector = connection.getConnector();
-                            if (isConnectorSelected(wiresConnector) && !m_externallyConnected.contains(wiresConnector)) {
-                                m_externallyConnected.add(wiresConnector);
-                            }
-                        }
-                    }
+                    collectExternalConnections(shape.getMagnets().getMagnet(i));
                 }
             }
             for (WiresShape child : shape.getChildShapes().asList()) {
                 updateExternallyConnectedOnShapeRemove(child);
+            }
+        }
+
+        private void collectExternalConnections(WiresMagnet magnet) {
+            if (magnet.getConnections() == null) return;
+            for (WiresConnection connection : magnet.getConnections().asList()) {
+                WiresConnector connector = connection.getConnector();
+                if (isConnectorSelected(connector) && !m_externallyConnected.contains(connector)) {
+                    m_externallyConnected.add(connector);
+                }
             }
         }
 
