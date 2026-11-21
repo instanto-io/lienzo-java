@@ -222,62 +222,50 @@ public final class Matrix {
         if (m_rows != m_columns || rhs.m_rows != m_columns || rhs.m_columns != 1) {
             throw new GeometryException("Illegal matrix dimensions");
         }
-        // create copies of the data
+        Matrix coefficients = new Matrix(this);
+        Matrix values = new Matrix(rhs);
+        for (int column = 0; column < m_columns; column++) {
+            eliminateColumn(coefficients, values, column);
+        }
+        return backSubstitute(coefficients, values);
+    }
 
-        Matrix A = new Matrix(this);
-
-        Matrix b = new Matrix(rhs);
-
-        // Gaussian elimination with partial pivoting
-
-        for (int i = 0; i < m_columns; i++) {
-            // find pivot row and swap
-
-            int max = i;
-
-            for (int j = i + 1; j < m_columns; j++) {
-                if (Math.abs(A.m_data[j][i]) > Math.abs(A.m_data[max][i])) {
-                    max = j;
-                }
-            }
-            A.swap(i, max);
-
-            b.swap(i, max);
-
-            // singular
-
-            if (A.m_data[i][i] == 0.0) {
-                throw new RuntimeException("Matrix is singular.");
-            }
-            // pivot within b
-
-            for (int j = i + 1; j < m_columns; j++) {
-                b.m_data[j][0] -= b.m_data[i][0] * A.m_data[j][i] / A.m_data[i][i];
-            }
-            // pivot within A
-
-            for (int j = i + 1; j < m_columns; j++) {
-                double m = A.m_data[j][i] / A.m_data[i][i];
-
-                for (int k = i + 1; k < m_columns; k++) {
-                    A.m_data[j][k] -= A.m_data[i][k] * m;
-                }
-                A.m_data[j][i] = 0.0;
+    private void eliminateColumn(Matrix coefficients, Matrix values, int column) {
+        int pivot = column;
+        for (int row = column + 1; row < m_columns; row++) {
+            if (Math.abs(coefficients.m_data[row][column]) > Math.abs(coefficients.m_data[pivot][column])) {
+                pivot = row;
             }
         }
-        // back substitution
-
-        Matrix x = new Matrix(m_columns, 1);
-
-        for (int j = m_columns - 1; j >= 0; j--) {
-            double t = 0.0;
-
-            for (int k = j + 1; k < m_columns; k++) {
-                t += A.m_data[j][k] * x.m_data[k][0];
-            }
-            x.m_data[j][0] = (b.m_data[j][0] - t) / A.m_data[j][j];
+        coefficients.swap(column, pivot);
+        values.swap(column, pivot);
+        if (coefficients.m_data[column][column] == 0.0) {
+            throw new RuntimeException("Matrix is singular.");
         }
-        return x;
+
+        for (int row = column + 1; row < m_columns; row++) {
+            values.m_data[row][0] -= values.m_data[column][0] * coefficients.m_data[row][column]
+                    / coefficients.m_data[column][column];
+        }
+        for (int row = column + 1; row < m_columns; row++) {
+            double factor = coefficients.m_data[row][column] / coefficients.m_data[column][column];
+            for (int col = column + 1; col < m_columns; col++) {
+                coefficients.m_data[row][col] -= coefficients.m_data[column][col] * factor;
+            }
+            coefficients.m_data[row][column] = 0.0;
+        }
+    }
+
+    private Matrix backSubstitute(Matrix coefficients, Matrix values) {
+        Matrix solution = new Matrix(m_columns, 1);
+        for (int row = m_columns - 1; row >= 0; row--) {
+            double sum = 0.0;
+            for (int col = row + 1; col < m_columns; col++) {
+                sum += coefficients.m_data[row][col] * solution.m_data[col][0];
+            }
+            solution.m_data[row][0] = (values.m_data[row][0] - sum) / coefficients.m_data[row][row];
+        }
+        return solution;
     }
 
     /**
