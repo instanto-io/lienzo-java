@@ -782,32 +782,19 @@ public class Layer extends ContainerNode<IPrimitive<?>, Layer> {
      */
     @Override
     protected void find(final Predicate<Node<?>> predicate, final LinkedHashSet<Node<?>> buff) {
-        if (predicate.test(this)) {
-            buff.add(this);
-        }
+        if (predicate.test(this)) buff.add(this);
         final NFastArrayList<IPrimitive<?>> list = getChildNodes();
+        if (list == null) return;
 
-        if (null != list) {
-            final int size = list.size();
-
-            for (int i = 0; i < size; i++) {
-                final IPrimitive<?> prim = list.get(i);
-
-                if (null != prim) {
-                    final Node<?> node = prim.asNode();
-
-                    if (null != node) {
-                        if (predicate.test(node)) {
-                            buff.add(node);
-                        }
-                        final ContainerNode<?, ?> cont = node.asContainerNode();
-
-                        if (null != cont) {
-                            cont.find(predicate, buff);
-                        }
-                    }
-                }
-            }
+        final int size = list.size();
+        for (int i = 0; i < size; i++) {
+            final IPrimitive<?> primitive = list.get(i);
+            if (primitive == null) continue;
+            final Node<?> node = primitive.asNode();
+            if (node == null) continue;
+            if (predicate.test(node)) buff.add(node);
+            final ContainerNode<?, ?> container = node.asContainerNode();
+            if (container != null) container.find(predicate, buff);
         }
     }
 
