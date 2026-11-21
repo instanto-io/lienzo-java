@@ -67,6 +67,7 @@ public interface ImageDataFilter<T extends ImageDataFilter<T>> {
     final class FilterConvolveMatrix extends JsArray<Double> {
 
         public FilterConvolveMatrix() {
+            // JavaScript constructs the native array.
         }
     }
 }
