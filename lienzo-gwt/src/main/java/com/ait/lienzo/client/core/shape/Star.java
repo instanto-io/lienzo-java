@@ -102,43 +102,38 @@ public class Star extends Shape<Star> {
     }
 
     private boolean parse() {
-        final int sp = getStarPoints();
+        final int points = getStarPoints();
+        final double inner = getInnerRadius();
+        final double outer = getOuterRadius();
+        if (!(points > 4 && inner > 0 && outer > 0 && outer > inner)) return false;
 
-        final double ir = getInnerRadius();
-
-        final double or = getOuterRadius();
-
-        if ((sp > 4) && (ir > 0) && (or > 0) && (or > ir)) {
-            m_list.M(0, 0 - or);
-
-            final int s2 = sp * 2;
-
-            final double corner = getCornerRadius();
-
-            if (corner <= 0) {
-                for (int n = 1; n < s2; n++) {
-                    final double stheta = (n * Math.PI / sp);
-
-                    final double radius = (((n % 2) == 0) ? or : ir);
-
-                    m_list.L(radius * Math.sin(stheta), -1 * radius * Math.cos(stheta));
-                }
-                m_list.Z();
-            } else {
-                final Point2DArray list = Point2DArray.fromArrayOfDouble(0, 0 - or);
-
-                for (int n = 1; n < s2; n++) {
-                    final double stheta = (n * Math.PI / sp);
-
-                    final double radius = (((n % 2) == 0) ? or : ir);
-
-                    list.pushXY(radius * Math.sin(stheta), -1 * radius * Math.cos(stheta));
-                }
-                Geometry.drawArcJoinedLines(m_list, list.pushXY(0, 0 - or), corner);
-            }
-            return true;
+        m_list.M(0, 0 - outer);
+        final double corner = getCornerRadius();
+        if (corner <= 0) {
+            drawSharpStar(points, inner, outer);
+        } else {
+            drawRoundedStar(points, inner, outer, corner);
         }
-        return false;
+        return true;
+    }
+
+    private void drawSharpStar(int points, double inner, double outer) {
+        for (int n = 1; n < points * 2; n++) {
+            double angle = n * Math.PI / points;
+            double radius = (n % 2 == 0) ? outer : inner;
+            m_list.L(radius * Math.sin(angle), -1 * radius * Math.cos(angle));
+        }
+        m_list.Z();
+    }
+
+    private void drawRoundedStar(int points, double inner, double outer, double corner) {
+        final Point2DArray path = Point2DArray.fromArrayOfDouble(0, 0 - outer);
+        for (int n = 1; n < points * 2; n++) {
+            double angle = n * Math.PI / points;
+            double radius = (n % 2 == 0) ? outer : inner;
+            path.pushXY(radius * Math.sin(angle), -1 * radius * Math.cos(angle));
+        }
+        Geometry.drawArcJoinedLines(m_list, path.pushXY(0, 0 - outer), corner);
     }
 
     @Override
