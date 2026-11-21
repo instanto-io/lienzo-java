@@ -82,46 +82,33 @@ public class Line extends AbstractOffsetMultiPointShape<Line> {
      */
     @Override
     protected boolean prepare(final Context2D context, final double alpha) {
-        final Point2DArray list = getPoints();
+        final Point2DArray points = getPoints();
+        if (points == null || points.size() != 2) return false;
+        if (drawSoftwareDash(context, alpha, points)) return true;
 
-        if ((null != list) && (list.size() == 2)) {
-            if (getDashArray() != null) {
-                if (!LienzoCore.get().isNativeLineDashSupported()) {
-                    DashArray dash = getDashArray();
+        context.beginPath();
+        final Point2D start = points.get(0);
+        context.moveTo(start.getX(), start.getY());
+        final Point2D end = points.get(1);
+        context.lineTo(end.getX(), end.getY());
+        return true;
+    }
 
-                    if (dash != null) {
-                        double[] data = dash.getNormalizedArray();
+    private boolean drawSoftwareDash(Context2D context, double alpha, Point2DArray points) {
+        if (getDashArray() == null || LienzoCore.get().isNativeLineDashSupported()) return false;
+        DashArray dash = getDashArray();
+        if (dash == null) return false;
+        double[] data = dash.getNormalizedArray();
+        if (data.length == 0) return false;
 
-                        if (data.length > 0) {
-                            if (setStrokeParams(context, alpha, false)) {
-                                Point2D p0 = list.get(0);
-
-                                Point2D p1 = list.get(1);
-
-                                context.beginPath();
-
-                                drawDashedLine(context, p0.getX(), p0.getY(), p1.getX(), p1.getY(), data, getStrokeWidth() / 2);
-
-                                context.restore();
-                            }
-                            return true;
-                        }
-                    }
-                }
-            }
+        if (setStrokeParams(context, alpha, false)) {
+            Point2D start = points.get(0);
+            Point2D end = points.get(1);
             context.beginPath();
-
-            final Point2D p0 = list.get(0);
-
-            context.moveTo(p0.getX(), p0.getY());
-
-            final Point2D p1 = list.get(1);
-
-            context.lineTo(p1.getX(), p1.getY());
-
-            return true;
+            drawDashedLine(context, start.getX(), start.getY(), end.getX(), end.getY(), data, getStrokeWidth() / 2);
+            context.restore();
         }
-        return false;
+        return true;
     }
 
     @Override
