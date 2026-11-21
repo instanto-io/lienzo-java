@@ -30,6 +30,7 @@ public class GroupItem extends AbstractItem<GroupItem, Group> implements Item<Gr
     private static final Runnable NO_OP = new Runnable() {
         @Override
         public void run() {
+            // This overload does not require a visibility completion callback.
         }
     };
 
