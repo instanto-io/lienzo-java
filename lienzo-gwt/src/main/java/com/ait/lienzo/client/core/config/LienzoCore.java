@@ -137,33 +137,31 @@ public final class LienzoCore {
     }
 
     public final boolean isSafariBroken() {
-        String ua = getUserAgent();
-
-        if ((ua.indexOf("Safari") >= 0) && (ua.indexOf("Chrome") < 0)) {
-            if (ua.indexOf("OS X") >= 0) {
-                int p = ua.indexOf("Version/");
-
-                if (p >= 0) {
-                    ua = ua.substring(p + "Version/".length());
-
-                    p = ua.indexOf(" ");
-
-                    if (p >= 0) {
-                        ua = ua.substring(0, p).replace(".", "");
-
-                        try {
-                            if (Integer.parseInt(ua) > 902) {
-                                return false;
-                            }
-                        } catch (Exception e) {
-                            error("isSafariBroken(" + ua + ")", e);
-                        }
-                    }
-                }
-            }
+        String userAgent = getUserAgent();
+        if (userAgent.indexOf("Safari") < 0 || userAgent.indexOf("Chrome") >= 0) {
+            return false;
+        }
+        if (userAgent.indexOf("OS X") < 0) {
             return true;
         }
-        return false;
+
+        int marker = userAgent.indexOf("Version/");
+        if (marker < 0) {
+            return true;
+        }
+        String version = userAgent.substring(marker + "Version/".length());
+        int end = version.indexOf(" ");
+        if (end < 0) {
+            return true;
+        }
+
+        version = version.substring(0, end).replace(".", "");
+        try {
+            return Integer.parseInt(version) <= 902;
+        } catch (Exception failure) {
+            error("isSafariBroken(" + version + ")", failure);
+            return true;
+        }
     }
 
     public final boolean isFirefox() {
