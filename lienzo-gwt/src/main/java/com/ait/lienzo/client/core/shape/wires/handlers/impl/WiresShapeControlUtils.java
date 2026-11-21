@@ -153,24 +153,7 @@ public class WiresShapeControlUtils {
      */
     public static Map<String, WiresConnector> lookupChildrenConnectorsToUpdate(WiresShape shape) {
         final Map<String, WiresConnector> connectors = new HashMap<>();
-        if (shape.getMagnets() != null) {
-            // start with 0, as we can have center connections too
-            for (int i = 0, size0 = shape.getMagnets().size(); i < size0; i++) {
-                WiresMagnet m = shape.getMagnets().getMagnet(i);
-                for (int j = 0, size1 = m.getConnectionsSize(); j < size1; j++) {
-                    final WiresConnection connection = m.getConnections().get(j);
-                    final WiresConnector connector = connection.getConnector();
-                    if (isConnected(connector)) {
-                        final WiresShape oppositeShape =
-                                connection.getOppositeConnection().getMagnet().getMagnets().getWiresShape();
-                        if (isSameParent(shape, oppositeShape)) {
-                            connectors.put(connector.uuid(), connector);
-                        }
-                    }
-                }
-            }
-        }
-
+        collectSiblingConnectors(shape, connectors);
         if (shape.getChildShapes() != null) {
             for (WiresShape child : shape.getChildShapes().asList()) {
                 //recursive call to children
@@ -179,6 +162,25 @@ public class WiresShapeControlUtils {
         }
 
         return connectors;
+    }
+
+    private static void collectSiblingConnectors(WiresShape shape, Map<String, WiresConnector> connectors) {
+        if (shape.getMagnets() == null) return;
+        // start with 0, as we can have center connections too
+        for (int i = 0, size0 = shape.getMagnets().size(); i < size0; i++) {
+            WiresMagnet m = shape.getMagnets().getMagnet(i);
+            for (int j = 0, size1 = m.getConnectionsSize(); j < size1; j++) {
+                final WiresConnection connection = m.getConnections().get(j);
+                final WiresConnector connector = connection.getConnector();
+                if (isConnected(connector)) {
+                    final WiresShape oppositeShape =
+                            connection.getOppositeConnection().getMagnet().getMagnets().getWiresShape();
+                    if (isSameParent(shape, oppositeShape)) {
+                        connectors.put(connector.uuid(), connector);
+                    }
+                }
+            }
+        }
     }
 
     private static boolean isSameParent(final WiresShape s1,
