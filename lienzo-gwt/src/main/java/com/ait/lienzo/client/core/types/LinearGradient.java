@@ -114,7 +114,7 @@ public final class LinearGradient implements FillGradient {
         public static final LinearGradientJSO make(double sx, double sy, double ex, double ey) {
             LinearGradientJSO grad = new LinearGradientJSO();
             setValues(sx, sy, ex, ey, grad);
-            grad.type = "LinearGradient";
+            grad.type = TYPE;
             return grad;
         }
 
