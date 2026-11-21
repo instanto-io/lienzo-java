@@ -85,7 +85,7 @@ public class OnEventHandlers {
 
         @Override
         public void onMouseEventAfter(MouseEvent listener) {
-
+            // The default handler lets the event pass through without post-processing.
         }
     }
 
