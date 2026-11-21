@@ -28,9 +28,6 @@ public final class ColorKeyRotor {
 
     private int m_b_color = 0;
 
-    public ColorKeyRotor() {
-    }
-
     public String next() {
         m_r_color += 16;
 
