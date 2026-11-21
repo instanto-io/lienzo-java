@@ -109,6 +109,7 @@ public final class LinearGradient implements FillGradient {
         public JsArray<Object[]> colorStops;
 
         public LinearGradientJSO() {
+            // The factory initializes the gradient fields after construction.
         }
 
         public static final LinearGradientJSO make(double sx, double sy, double ex, double ey) {
