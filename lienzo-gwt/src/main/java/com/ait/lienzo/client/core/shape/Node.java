@@ -746,38 +746,8 @@ public abstract class Node<T extends Node<T>> implements IDrawable<T> {
 
             oy = offset.getY();
         }
-        final double r = getRotation();
-
-        if (r != 0) {
-            if ((ox != 0) || (oy != 0)) {
-                cachedXfrm.translate(ox, oy);
-
-                cachedXfrm.rotate(r);
-
-                cachedXfrm.translate(-ox, -oy);
-            } else {
-                cachedXfrm.rotate(r);
-            }
-        }
-        final Point2D scale = getScale();
-
-        if (null != scale) {
-            final double sx = scale.getX();
-
-            final double sy = scale.getY();
-
-            if ((sx != 1) || (sy != 1)) {
-                if ((ox != 0) || (oy != 0)) {
-                    cachedXfrm.translate(ox, oy);
-
-                    cachedXfrm.scaleWithXY(sx, sy);
-
-                    cachedXfrm.translate(-ox, -oy);
-                } else {
-                    cachedXfrm.scaleWithXY(sx, sy);
-                }
-            }
-        }
+        rotateAroundOffset(ox, oy);
+        scaleAroundOffset(ox, oy);
         final Point2D shear = getShear();
 
         if (null != shear) {
@@ -790,6 +760,27 @@ public abstract class Node<T extends Node<T>> implements IDrawable<T> {
             }
         }
         return cachedXfrm;
+    }
+
+    private void rotateAroundOffset(double x, double y) {
+        double rotation = getRotation();
+        if (rotation == 0) return;
+        boolean hasOffset = x != 0 || y != 0;
+        if (hasOffset) cachedXfrm.translate(x, y);
+        cachedXfrm.rotate(rotation);
+        if (hasOffset) cachedXfrm.translate(-x, -y);
+    }
+
+    private void scaleAroundOffset(double x, double y) {
+        Point2D scale = getScale();
+        if (scale == null) return;
+        double sx = scale.getX();
+        double sy = scale.getY();
+        if (sx == 1 && sy == 1) return;
+        boolean hasOffset = x != 0 || y != 0;
+        if (hasOffset) cachedXfrm.translate(x, y);
+        cachedXfrm.scaleWithXY(sx, sy);
+        if (hasOffset) cachedXfrm.translate(-x, -y);
     }
 
     @Override
