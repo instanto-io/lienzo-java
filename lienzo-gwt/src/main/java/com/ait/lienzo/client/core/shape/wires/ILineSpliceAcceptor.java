@@ -69,6 +69,7 @@ public interface ILineSpliceAcceptor {
         }
 
         public void ensureUnHighLight() {
+            // The default acceptor never creates a splice highlight.
         }
     }
 }
