@@ -27,6 +27,7 @@ import jsinterop.base.JsArrayLike;
 public class NFastDoubleArray extends NArrayBase<Double> {
 
     public NFastDoubleArray() {
+        // JavaScript constructs the native array.
     }
 
     @JsOverlay
