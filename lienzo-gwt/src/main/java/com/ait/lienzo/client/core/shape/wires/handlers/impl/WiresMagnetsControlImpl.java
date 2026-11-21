@@ -44,7 +44,7 @@ public class WiresMagnetsControlImpl implements WiresMagnetsControl {
     @Override
     public void onMoveStart(double x,
                             double y) {
-
+        // Magnets are updated as the shape moves and when movement completes.
     }
 
     @Override
